@@ -156,8 +156,13 @@ function init() {
 			p.lon(lon);
 			return p;
 		}
-
-		var p = createPoint(lat, lng);
+		var lon = lng;
+		while(lon < -180.0)
+			lon = lon + 360;
+		while(lon > 180.0)
+			lon = lon - 180;
+		
+		var p = createPoint(lat, lon);
 		if(viewModel.exists(p)) {
 			return;
 		}
@@ -165,7 +170,7 @@ function init() {
 
 		isAdding = true;
 
-		var marker = L.marker(new L.LatLng(lat, lng), {
+		var marker = L.marker(new L.LatLng(lat, lon), {
 			draggable: true,
 			shotpoint: p
 		}).addTo(map);
@@ -175,13 +180,13 @@ function init() {
 		popupElement.innerHTML = 
 				'<table class="llaselecter-marker-position">' +
 				'<tr>' +
-					'<td>地名</td><td><input class="llaselecter-map-station" value="' + marker.name + '"></td>' + 
+					'<td>地名</td><td><input class="llaselecter-map-station" value="' + name + '"></td>' + 
 				'</tr>' + 
 				'<tr>' +
-					'<td>緯度[°]</td><td><input class="llaselecter-map-latitude" value="' + marker._latlng.lat + '"></td>' + 
+					'<td>緯度[°]</td><td><input class="llaselecter-map-latitude" value="' + lat + '"></td>' + 
 				'</tr>' + 
 				'<tr>' +
-					'<td>経度[°]</td><td><input class="llaselecter-map-longitude" value="' + marker._latlng.lng + '"></td>' + 
+					'<td>経度[°]</td><td><input class="llaselecter-map-longitude" value="' + lon + '"></td>' + 
 				'</tr>' + 
 				'</table>' + 
 				'<div class="llaselecter-map-buttons">' + 
@@ -224,8 +229,15 @@ function init() {
 					marker.name = elements[0].value;
 					marker.options.shotpoint.name(marker.name);
 					marker.options.shotpoint.lat(lat);
-					marker.options.shotpoint.lon(lng);
-					marker.setLatLng(L.latLng(lat, lng));
+
+					var lon = lng;
+					while(lon < -180.0)
+						lon = lon + 360;
+					while(lon > 180.0)
+						lon = lon - 180;
+
+					marker.options.shotpoint.lon(lon);
+					marker.setLatLng(L.latLng(lat, lon));
 			};
 		};
 
@@ -259,6 +271,26 @@ function init() {
 			if(!marker.options.circle) return;
 			map.removeLayer(marker.options.circle);
 		});
+
+		if(marker.name == "") {
+			var url = "https://nominatim.openstreetmap.org/reverse?format=json&lat="+lat+"&lon="+lon+"&zoom=18&addressdetails=1";
+			$.ajax({
+			    url: url,
+			    dataType: "json",
+			    success: function( response ) {
+					var desc1 = response.address.city ? 
+							   response.address.city : 
+							   response.address.suburb ?
+							   response.address.suburb :
+							   response.address.state;
+					var desc2 = response.address.country_code.toUpperCase();
+					var desc = desc1 + "/" + desc2;
+			        marker.name = desc;
+					marker.options.shotpoint.name(desc);
+					popupElement.getElementsByClassName('llaselecter-map-station')[0].value = desc;
+			    }
+			});
+		}
 
 		addPoint(marker.options.shotpoint);
 		isAdding = false;	
