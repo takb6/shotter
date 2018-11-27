@@ -148,7 +148,6 @@ function init() {
 		if (isNaN(lat) | isNaN(lng) | isAdding){
 			return;
 		}
-		isAdding = true;
 
 		function createPoint(lat, lon){
 			var p = new point();
@@ -159,11 +158,12 @@ function init() {
 		}
 
 		var p = createPoint(lat, lng);
-
 		if(viewModel.exists(p)) {
 			return;
 		}
 
+
+		isAdding = true;
 
 		var marker = L.marker(new L.LatLng(lat, lng), {
 			draggable: true,
