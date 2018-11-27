@@ -248,6 +248,16 @@ function init() {
 					elements[1].value = marker.getLatLng().lat;
 					elements[2].value = marker.getLatLng().lng;
 					elements = null;
+			marker.options.circle =  L.circle([marker.getLatLng().lat, marker.getLatLng().lng], 4000, {
+				color: 'red',
+				fillColor: '#f03',
+				fillOpacity: 0.3
+			}).addTo(map);
+
+		});
+		marker.getPopup().on('close', function(e){
+			if(!marker.options.circle) return;
+			map.removeLayer(marker.options.circle);
 		});
 
 		addPoint(marker.options.shotpoint);
