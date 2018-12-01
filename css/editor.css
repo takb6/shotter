@@ -3,23 +3,113 @@
 	margin: 0;
 }
 #map {
-	width: 100%;
 	height: 100%;
-	position : absolute;
+	width: auto;
 }
 
 #editor {
 	font-family: "HGMaruGothicMPRO";
-	position : absolute;
-	width : 350px;
+	width : auto;
 	height : 100%;
 	background : white;
+	font-size: 14px;
+	float: left;
 }
 
-#button {
+.editor-button {
 	padding : 5px;
-	margin-top : 80px;
 }
 #file{
 	font-size : 16px;
+    border-style: none;
+    background: none;
+}
+.editor-table, .editor-table-scroll td {
+    border: 1px lightgray solid;
+    border-collapse: collapse;
+    font-family: メイリオ;
+    font-size: 12px;
+}
+
+.editor-table th {
+	background: lightgray;
+    border: 1px white solid;
+	cursor: pointer;
+}
+
+.editor-table-column1 {
+	width: 500px;
+}
+.editor-table-column2 {
+	width: 80px;
+	max-width: 80px;
+}
+.editor-table-column3 {
+	width: 80px;
+	max-width: 80px;
+	text-align: right;
+}
+
+.editor-table-input{
+	width: 99.5%;
+	height: 100%;
+	border: none;
+}
+
+.editor-sort-button {
+	border: none;
+	background: none;
+	width: 100%;
+	cursor: pointer;
+}
+
+.editor-table-scroll {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	max-height: 800px;
+}
+
+.editor-open {
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+	padding: 0px;
+	padding-right: 12px;
+	padding-left: 12px;
+}
+
+.editor-save {
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+	padding-right: 12px;
+	padding-left: 12px;
+}
+
+.editor-remove {
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+	padding-right: 12px;
+	padding-left: 12px;
+}
+
+.editor-filter {
+	width: 24px;
+	height: 24px;
+	padding-left: 12px;
+	padding-right: 0px;
+}
+
+.editor-filter-input {
+
+}
+
+.editor-popup-buttons{
+	text-align: right;
+}
+.editor-popup-remove {
+	width: 18px;
+	height: 18px;
+	cursor: pointer;
 }
